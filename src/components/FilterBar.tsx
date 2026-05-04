@@ -1,9 +1,9 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
-import { TaskStatus } from '../types/task';
-import { useTheme } from '../context/ThemeContext';
+import React from "react";
+import { TouchableOpacity, Text, StyleSheet, ScrollView } from "react-native";
+import { TaskStatus } from "../types/task";
+import { useTheme } from "../context/ThemeContext";
 
-type Filter = TaskStatus | 'todas';
+type Filter = TaskStatus | "todas";
 
 interface FilterBarProps {
   current: Filter;
@@ -14,10 +14,10 @@ export function FilterBar({ current, onChange }: FilterBarProps) {
   const { colors } = useTheme();
 
   const filters = [
-    { value: 'todas' as Filter, label: 'Todas' },
-    { value: 'pendente' as Filter, label: 'Pendente' },
-    { value: 'em_andamento' as Filter, label: 'Em andamento' },
-    { value: 'concluida' as Filter, label: 'Concluída' },
+    { value: "todas" as Filter, label: "Todas" },
+    { value: "pendente" as Filter, label: "Pendente" },
+    { value: "em_andamento" as Filter, label: "Em andamento" },
+    { value: "concluida" as Filter, label: "Concluída" },
   ];
 
   return (
@@ -29,8 +29,8 @@ export function FilterBar({ current, onChange }: FilterBarProps) {
     >
       {filters.map((filter) => {
         const isActive = current === filter.value;
-        const backgroundColor = isActive ? colors.primary : 'transparent';
-        const textColor = isActive ? '#fff' : colors.primary;
+        const backgroundColor = isActive ? colors.primary : "transparent";
+        const textColor = isActive ? "#fff" : colors.primary;
 
         return (
           <TouchableOpacity
@@ -44,7 +44,7 @@ export function FilterBar({ current, onChange }: FilterBarProps) {
               },
             ]}
           >
-            <Text style={{ color: textColor, fontWeight: '600', fontSize: 13 }}>
+            <Text style={{ color: textColor, fontWeight: "600", fontSize: 13 }}>
               {filter.label}
             </Text>
           </TouchableOpacity>
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     gap: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   btn: {
     borderRadius: 20,

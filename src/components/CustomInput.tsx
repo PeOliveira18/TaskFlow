@@ -1,6 +1,6 @@
-import React from 'react';
-import { TextInput, Text, View, StyleSheet } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
+import React from "react";
+import { TextInput, Text, View, StyleSheet } from "react-native";
+import { useTheme } from "../context/ThemeContext";
 
 interface CustomInputProps {
   label?: string;
@@ -10,7 +10,7 @@ interface CustomInputProps {
   secureTextEntry?: boolean;
   multiline?: boolean;
   numberOfLines?: number;
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
 export function CustomInput({
@@ -27,7 +27,9 @@ export function CustomInput({
 
   return (
     <View style={styles.container}>
-      {label && <Text style={[styles.label, { color: colors.subtext }]}>{label}</Text>}
+      {label && (
+        <Text style={[styles.label, { color: colors.subtext }]}>{label}</Text>
+      )}
       <TextInput
         style={[
           styles.input,
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 13,
     marginBottom: 4,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   input: {
     borderWidth: 1,

@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useTheme } from "../context/ThemeContext";
 
 interface EmptyStateProps {
   message?: string;
@@ -8,11 +8,13 @@ interface EmptyStateProps {
 
 export function EmptyState({ message }: EmptyStateProps) {
   const { colors } = useTheme();
-  const displayMessage = message || 'Nenhuma tarefa encontrada.';
+  const displayMessage = message || "Nenhuma tarefa encontrada.";
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.text, { color: colors.subtext }]}>{displayMessage}</Text>
+      <Text style={[styles.text, { color: colors.subtext }]}>
+        {displayMessage}
+      </Text>
     </View>
   );
 }
@@ -20,8 +22,8 @@ export function EmptyState({ message }: EmptyStateProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 32,
   },
   icon: {
@@ -30,6 +32,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
