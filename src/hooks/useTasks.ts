@@ -1,15 +1,25 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useTaskContext } from '../context/TaskContext';
 import { TaskStatus } from '../types/task';
 
 export function useTasks() {
-  const ctx = useTaskContext();
+  const { tasks, loading, addTask, updateTask, deleteTask, getTask } = useTaskContext();
   const [filter, setFilter] = useState<TaskStatus | 'todas'>('todas');
 
-  const filtered = useMemo(() => {
-    if (filter === 'todas') return ctx.tasks;
-    return ctx.tasks.filter((t) => t.status === filter);
-  }, [ctx.tasks, filter]);
+  let filteredTasks = tasks;
+  if (filter !== 'todas') {
+    filteredTasks = tasks.filter((task) => task.status === filter);
+  }
 
-  return { ...ctx, filtered, filter, setFilter };
+  return {
+    tasks,
+    filtered: filteredTasks,
+    loading,
+    filter,
+    setFilter,
+    addTask,
+    updateTask,
+    deleteTask,
+    getTask,
+  };
 }

@@ -28,36 +28,56 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadTasks().then((data) => {
-      setTasks(data);
-      setLoading(false);
-    });
+    loadTasksFromStorage();
   }, []);
 
-  async function addTask(data: NewTask): Promise<void> {
+  async function loadTasksFromStorage() {
+    const savedTasks = await loadTasks();
+    setTasks(savedTasks);
+    setLoading(false);
+  }
+
+  async function addTask(data: NewTask) {
     const now = new Date().toISOString();
-    const task: Task = { id: generateId(), ...data, createdAt: now, updatedAt: now };
-    const updated = [task, ...tasks];
-    setTasks(updated);
-    await saveTasks(updated);
+    const newTask: Task = {
+      id: generateId(),
+      title: data.title,
+      description: data.description,
+      status: data.status,
+      priority: data.priority,
+      category: data.category,
+      categoryIcon: data.categoryIcon,
+      createdAt: now,
+      updatedAt: now,
+    };
+    const updatedTasks = [newTask, ...tasks];
+    setTasks(updatedTasks);
+    await saveTasks(updatedTasks);
   }
 
-  async function updateTask(id: string, data: Partial<NewTask>): Promise<void> {
-    const updated = tasks.map((t) =>
-      t.id === id ? { ...t, ...data, updatedAt: new Date().toISOString() } : t
-    );
-    setTasks(updated);
-    await saveTasks(updated);
+  async function updateTask(id: string, data: Partial<NewTask>) {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return {
+          ...task,
+          ...data,
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+    await saveTasks(updatedTasks);
   }
 
-  async function deleteTask(id: string): Promise<void> {
-    const updated = tasks.filter((t) => t.id !== id);
-    setTasks(updated);
-    await saveTasks(updated);
+  async function deleteTask(id: string) {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    await saveTasks(updatedTasks);
   }
 
-  function getTask(id: string): Task | undefined {
-    return tasks.find((t) => t.id === id);
+  function getTask(id: string) {
+    return tasks.find((task) => task.id === id);
   }
 
   return (

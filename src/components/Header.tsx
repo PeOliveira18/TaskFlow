@@ -11,11 +11,13 @@ export function Header({ title }: HeaderProps) {
   const { user, logout } = useAuth();
   const { colors } = useTheme();
 
+  const roleText = user?.role === 'admin' ? 'Administrador' : 'Usuário';
+
   return (
     <View style={[styles.container, { backgroundColor: colors.primary }]}>
       <View>
         <Text style={styles.name}>{user?.name}</Text>
-        <Text style={styles.role}>{user?.role === 'admin' ? '👑 Admin' : '👤 Usuário'}</Text>
+        <Text style={styles.role}>{roleText}</Text>
       </View>
       {title && <Text style={styles.title}>{title}</Text>}
       <TouchableOpacity onPress={logout} style={styles.logoutBtn}>
@@ -34,9 +36,28 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingTop: 48,
   },
-  name: { color: '#fff', fontWeight: 'bold', fontSize: 15 },
-  role: { color: 'rgba(255,255,255,0.8)', fontSize: 12 },
-  title: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  logoutBtn: { backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 8, padding: 8 },
-  logoutText: { color: '#fff', fontSize: 13, fontWeight: '600' },
+  name: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  role: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 12,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutBtn: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 8,
+    padding: 8,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '600',
+  },
 });

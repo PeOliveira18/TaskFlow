@@ -17,17 +17,17 @@ export function SettingsScreen() {
       <ScrollView contentContainerStyle={styles.content}>
 
         <View style={[styles.card, { backgroundColor: colors.card }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>👤 Perfil</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Perfil</Text>
           <Row label="Nome" value={user?.name ?? ''} colors={colors} />
           <Row label="Usuário" value={user?.username ?? ''} colors={colors} />
-          <Row label="Perfil" value={user?.role === 'admin' ? '👑 Administrador' : '👤 Usuário'} colors={colors} />
+          <Row label="Perfil" value={user?.role === 'admin' ? 'Administrador' : 'Usuário'} colors={colors} />
         </View>
 
         <View style={[styles.card, { backgroundColor: colors.card }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>🎨 Aparência</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Aparência</Text>
           <View style={styles.switchRow}>
             <Text style={[styles.switchLabel, { color: colors.text }]}>
-              {mode === 'dark' ? '🌙 Tema escuro' : '☀️ Tema claro'}
+              {mode === 'dark' ? 'Tema escuro' : 'Tema claro'}
             </Text>
             <Switch
               value={mode === 'dark'}
@@ -39,7 +39,7 @@ export function SettingsScreen() {
         </View>
 
         <View style={[styles.card, { backgroundColor: colors.card }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>🗣️ Tratamento</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Tratamento</Text>
           <View style={styles.treatments}>
             {TREATMENTS.map((t) => (
               <TouchableOpacity

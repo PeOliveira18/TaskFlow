@@ -29,11 +29,11 @@ export function HomeScreen() {
       <Header />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={[styles.welcome, { color: colors.text }]}>
-          Olá, {user?.name?.split(' ')[0]}! 👋
+          Olá, {user?.name?.split(' ')[0]}!
         </Text>
 
         <View style={[styles.quoteCard, { backgroundColor: colors.primary }]}>
-          <Text style={styles.quoteLabel}>💡 Frase do dia</Text>
+          <Text style={styles.quoteLabel}>Frase do dia</Text>
           {quoteLoading
             ? <ActivityIndicator color="#fff" />
             : <Text style={styles.quote}>{quote}</Text>

@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type ThemeMode = 'light' | 'dark';
-
 interface Colors {
   background: string;
   card: string;
@@ -15,7 +13,7 @@ interface Colors {
   warning: string;
 }
 
-const LIGHT: Colors = {
+const LIGHT_COLORS: Colors = {
   background: '#F5F5F5',
   card: '#FFFFFF',
   text: '#1A1A1A',
@@ -27,7 +25,7 @@ const LIGHT: Colors = {
   warning: '#FB8C00',
 };
 
-const DARK: Colors = {
+const DARK_COLORS: Colors = {
   background: '#121212',
   card: '#1E1E1E',
   text: '#F5F5F5',
@@ -40,7 +38,7 @@ const DARK: Colors = {
 };
 
 interface ThemeContextData {
-  mode: ThemeMode;
+  mode: string;
   colors: Colors;
   toggleTheme: () => void;
 }
@@ -48,22 +46,29 @@ interface ThemeContextData {
 const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>('light');
+  const [mode, setMode] = useState('light');
 
   useEffect(() => {
-    AsyncStorage.getItem('@taskflow:theme').then((val) => {
-      if (val === 'dark' || val === 'light') setMode(val);
-    });
+    loadTheme();
   }, []);
 
-  async function toggleTheme() {
-    const next: ThemeMode = mode === 'light' ? 'dark' : 'light';
-    setMode(next);
-    await AsyncStorage.setItem('@taskflow:theme', next);
+  async function loadTheme() {
+    const savedTheme = await AsyncStorage.getItem('@taskflow:theme');
+    if (savedTheme) {
+      setMode(savedTheme);
+    }
   }
 
+  async function toggleTheme() {
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
+    await AsyncStorage.setItem('@taskflow:theme', newMode);
+  }
+
+  const colors = mode === 'light' ? LIGHT_COLORS : DARK_COLORS;
+
   return (
-    <ThemeContext.Provider value={{ mode, colors: mode === 'light' ? LIGHT : DARK, toggleTheme }}>
+    <ThemeContext.Provider value={{ mode, colors, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

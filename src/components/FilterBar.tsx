@@ -1,16 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
 import { TaskStatus } from '../types/task';
 import { useTheme } from '../context/ThemeContext';
 
 type Filter = TaskStatus | 'todas';
-
-const OPTIONS: { value: Filter; label: string }[] = [
-  { value: 'todas', label: 'Todas' },
-  { value: 'pendente', label: 'Pendente' },
-  { value: 'em_andamento', label: 'Em andamento' },
-  { value: 'concluida', label: 'Concluída' },
-];
 
 interface FilterBarProps {
   current: Filter;
@@ -19,21 +12,40 @@ interface FilterBarProps {
 
 export function FilterBar({ current, onChange }: FilterBarProps) {
   const { colors } = useTheme();
+
+  const filters = [
+    { value: 'todas' as Filter, label: 'Todas' },
+    { value: 'pendente' as Filter, label: 'Pendente' },
+    { value: 'em_andamento' as Filter, label: 'Em andamento' },
+    { value: 'concluida' as Filter, label: 'Concluída' },
+  ];
+
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scroll} contentContainerStyle={styles.container}>
-      {OPTIONS.map((opt) => {
-        const active = current === opt.value;
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.scroll}
+      contentContainerStyle={styles.container}
+    >
+      {filters.map((filter) => {
+        const isActive = current === filter.value;
+        const backgroundColor = isActive ? colors.primary : 'transparent';
+        const textColor = isActive ? '#fff' : colors.primary;
+
         return (
           <TouchableOpacity
-            key={opt.value}
-            onPress={() => onChange(opt.value)}
+            key={filter.value}
+            onPress={() => onChange(filter.value)}
             style={[
               styles.btn,
-              { borderColor: colors.primary, backgroundColor: active ? colors.primary : 'transparent' },
+              {
+                borderColor: colors.primary,
+                backgroundColor: backgroundColor,
+              },
             ]}
           >
-            <Text style={{ color: active ? '#fff' : colors.primary, fontWeight: '600', fontSize: 13 }}>
-              {opt.label}
+            <Text style={{ color: textColor, fontWeight: '600', fontSize: 13 }}>
+              {filter.label}
             </Text>
           </TouchableOpacity>
         );
@@ -43,7 +55,20 @@ export function FilterBar({ current, onChange }: FilterBarProps) {
 }
 
 const styles = StyleSheet.create({
-  scroll: { maxHeight: 50 },
-  container: { paddingHorizontal: 16, paddingVertical: 8, gap: 8, flexDirection: 'row', alignItems: 'center' },
-  btn: { borderRadius: 20, borderWidth: 1.5, paddingHorizontal: 14, paddingVertical: 6 },
+  scroll: {
+    maxHeight: 50,
+  },
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  btn: {
+    borderRadius: 20,
+    borderWidth: 1.5,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+  },
 });

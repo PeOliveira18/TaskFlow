@@ -7,43 +7,55 @@ interface CustomButtonProps {
   onPress: () => void;
   variant?: 'primary' | 'danger' | 'outline';
   loading?: boolean;
-  disabled?: boolean;
 }
 
-export function CustomButton({ title, onPress, variant = 'primary', loading, disabled }: CustomButtonProps) {
+export function CustomButton({ title, onPress, variant = 'primary', loading }: CustomButtonProps) {
   const { colors } = useTheme();
 
-  const bg =
-    variant === 'primary' ? colors.primary :
-    variant === 'danger' ? colors.danger :
-    'transparent';
+  let backgroundColor = colors.primary;
+  let textColor = '#fff';
+  let borderWidth = 0;
 
-  const textColor =
-    variant === 'outline' ? colors.primary : '#fff';
-
-  const borderColor =
-    variant === 'outline' ? colors.primary : 'transparent';
+  if (variant === 'danger') {
+    backgroundColor = colors.danger;
+  } else if (variant === 'outline') {
+    backgroundColor = 'transparent';
+    textColor = colors.primary;
+    borderWidth = 2;
+  }
 
   return (
     <TouchableOpacity
       onPress={onPress}
-      disabled={disabled || loading}
+      disabled={loading}
       style={[
         styles.btn,
-        { backgroundColor: bg, borderColor, borderWidth: variant === 'outline' ? 2 : 0 },
-        (disabled || loading) && styles.disabled,
+        {
+          backgroundColor: backgroundColor,
+          borderColor: colors.primary,
+          borderWidth: borderWidth,
+          opacity: loading ? 0.5 : 1,
+        },
       ]}
     >
-      {loading
-        ? <ActivityIndicator color={textColor} />
-        : <Text style={[styles.text, { color: textColor }]}>{title}</Text>
-      }
+      {loading ? (
+        <ActivityIndicator color={textColor} />
+      ) : (
+        <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  btn: { borderRadius: 10, paddingVertical: 14, alignItems: 'center', marginVertical: 4 },
-  text: { fontWeight: '700', fontSize: 15 },
-  disabled: { opacity: 0.5 },
+  btn: {
+    borderRadius: 10,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  text: {
+    fontWeight: '700',
+    fontSize: 15,
+  },
 });

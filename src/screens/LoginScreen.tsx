@@ -31,7 +31,7 @@ export function LoginScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={styles.inner}>
-        <Text style={[styles.logo, { color: colors.primary }]}>✅ TaskFlow</Text>
+        <Text style={[styles.logo, { color: colors.primary }]}>TaskFlow</Text>
         <Text style={[styles.subtitle, { color: colors.subtext }]}>Gerencie suas tarefas</Text>
 
         <View style={[styles.card, { backgroundColor: colors.card }]}>

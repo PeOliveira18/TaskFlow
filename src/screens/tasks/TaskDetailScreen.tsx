@@ -12,7 +12,7 @@ import { formatDate } from '../../utils/formatDate';
 type Nav = NativeStackNavigationProp<TaskStackParamList, 'TaskDetail'>;
 type Route = RouteProp<TaskStackParamList, 'TaskDetail'>;
 
-const PRIORITY_LABEL: Record<string, string> = { baixa: '🟢 Baixa', media: '🟡 Média', alta: '🔴 Alta' };
+const PRIORITY_LABEL: Record<string, string> = { baixa: 'Baixa', media: 'Média', alta: 'Alta' };
 
 export function TaskDetailScreen() {
   const navigation = useNavigation<Nav>();
@@ -67,8 +67,8 @@ export function TaskDetailScreen() {
         <Text style={[styles.dateText, { color: colors.text }]}>Atualizado em: {formatDate(task.updatedAt)}</Text>
       </View>
 
-      <CustomButton title="✏️  Editar" onPress={() => navigation.navigate('TaskForm', { taskId: task.id })} />
-      <CustomButton title="🗑️  Excluir" onPress={handleDelete} variant="danger" />
+      <CustomButton title="Editar" onPress={() => navigation.navigate('TaskForm', { taskId: task.id })} />
+      <CustomButton title="Excluir" onPress={handleDelete} variant="danger" />
     </ScrollView>
   );
 }

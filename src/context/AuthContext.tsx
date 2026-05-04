@@ -7,8 +7,6 @@ const USERS: User[] = [
   { id: 2, username: 'user', password: '123', role: 'user', name: 'Usuário Comum' },
 ];
 
-const AUTH_KEY = '@taskflow:user';
-
 interface AuthContextData {
   user: User | null;
   loading: boolean;
@@ -23,22 +21,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AsyncStorage.getItem(AUTH_KEY).then((data) => {
-      if (data) setUser(JSON.parse(data));
-      setLoading(false);
-    });
+    loadUser();
   }, []);
 
-  async function login(username: string, password: string): Promise<boolean> {
-    const found = USERS.find((u) => u.username === username && u.password === password);
-    if (!found) return false;
-    await AsyncStorage.setItem(AUTH_KEY, JSON.stringify(found));
-    setUser(found);
+  async function loadUser() {
+    const savedUser = await AsyncStorage.getItem('@taskflow:user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+    setLoading(false);
+  }
+
+  async function login(username: string, password: string) {
+    const foundUser = USERS.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (!foundUser) {
+      return false;
+    }
+
+    await AsyncStorage.setItem('@taskflow:user', JSON.stringify(foundUser));
+    setUser(foundUser);
     return true;
   }
 
-  async function logout(): Promise<void> {
-    await AsyncStorage.removeItem(AUTH_KEY);
+  async function logout() {
+    await AsyncStorage.removeItem('@taskflow:user');
     setUser(null);
   }
 

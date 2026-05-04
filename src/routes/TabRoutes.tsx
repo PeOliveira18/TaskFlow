@@ -6,17 +6,19 @@ import { HomeScreen } from '../screens/home/HomeScreen';
 import { TaskStackRoutes } from './TaskStackRoutes';
 import { SettingsScreen } from '../screens/settings/SettingsScreen';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-function Icon({ emoji, focused }: { emoji: string; focused: boolean }) {
-  return <Text style={{ fontSize: focused ? 22 : 18 }}>{emoji}</Text>;
-}
-
 export function TabRoutes() {
   const { colors } = useTheme();
+  const { user } = useAuth();
+
+  const initialRoute = user?.role === 'admin' ? 'Settings' : 'Home';
+
   return (
     <Tab.Navigator
+      initialRouteName={initialRoute}
       screenOptions={{
         headerShown: false,
         tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.border },
@@ -27,17 +29,23 @@ export function TabRoutes() {
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: 'Home', tabBarIcon: ({ focused }) => <Icon emoji="🏠" focused={focused} /> }}
+        options={{
+          title: 'Home',
+        }}
       />
       <Tab.Screen
         name="Tasks"
         component={TaskStackRoutes}
-        options={{ title: 'Tarefas', tabBarIcon: ({ focused }) => <Icon emoji="📋" focused={focused} /> }}
+        options={{
+          title: 'Tarefas',
+        }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ title: 'Config.', tabBarIcon: ({ focused }) => <Icon emoji="⚙️" focused={focused} /> }}
+        options={{
+          title: 'Configurações',
+        }}
       />
     </Tab.Navigator>
   );

@@ -1,12 +1,28 @@
 import React from 'react';
-import { TextInput, Text, View, StyleSheet, TextInputProps } from 'react-native';
+import { TextInput, Text, View, StyleSheet } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 
-interface CustomInputProps extends TextInputProps {
+interface CustomInputProps {
   label?: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder?: string;
+  secureTextEntry?: boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
-export function CustomInput({ label, ...props }: CustomInputProps) {
+export function CustomInput({
+  label,
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry,
+  multiline,
+  numberOfLines,
+  autoCapitalize,
+}: CustomInputProps) {
   const { colors } = useTheme();
 
   return (
@@ -21,16 +37,28 @@ export function CustomInput({ label, ...props }: CustomInputProps) {
             borderColor: colors.border,
           },
         ]}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
         placeholderTextColor={colors.subtext}
-        {...props}
+        secureTextEntry={secureTextEntry}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
+        autoCapitalize={autoCapitalize}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 12 },
-  label: { fontSize: 13, marginBottom: 4, fontWeight: '500' },
+  container: {
+    marginBottom: 12,
+  },
+  label: {
+    fontSize: 13,
+    marginBottom: 4,
+    fontWeight: '500',
+  },
   input: {
     borderWidth: 1,
     borderRadius: 10,
